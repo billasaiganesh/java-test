@@ -15,7 +15,7 @@ pipeline {
 
         stage('Push') {
             steps {
-                echo 'Push'
+                echo 'Pushed'
 
                 sh "aws s3 cp target/sample-1.0.3.jar s3://s3-java-samples"
             }
