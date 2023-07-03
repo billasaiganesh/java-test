@@ -14,6 +14,13 @@ pipeline {
         }
 
         stage('Sonar Qube Analysis'){
+            agent any
+            when{
+                anyOf{
+                    branch  'feature/*'
+                    branch 'main'
+                }
+            }
             steps{
                withSonarQubeEnv('sonar'){
                 sh  'mvn sonar:sonar'
@@ -43,13 +50,33 @@ pipeline {
                 sh "aws s3 cp target/sample-1.0.3.jar s3://s3-java-samples"
             }
         }
+        //CI ended 
+        //CD started 
 
-        stage('Deploy') {
-            steps {
-                echo 'Build'
+        stage('Deployment'){
+            parallel{
+                stage('Deploy to PROD') {
+                    steps {
+                        echo 'Build'
 
-                sh "aws lambda update-function-code --function-name $function_name --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
+                        sh "aws lambda update-function-code --function-name $function_name --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
             }
         }
+
+            stage('Deploy to Test') {
+                 when{
+                    branch 'main'
+                 }
+                 steps {
+                     echo 'Build'
+
+                     sh "aws lambda update-function-code --function-name $function_name --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
+                  }
+                }
+            }
+        }
+
+
+
     }
 }
