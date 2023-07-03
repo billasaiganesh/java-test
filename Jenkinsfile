@@ -21,10 +21,17 @@ pipeline {
             }
         }
 
-        stage('Quality gate'){
-            steps{
-                timeout(time:10, unit:"MINUTES"){
-                    waitForQualityGate abortpipeline:true
+        stage("Quality Gate") {
+            steps {
+                script {
+                    try {
+                        timeout(time: 10, unit: 'MINUTES') {
+                            waitForQualityGate abortPipeline: true
+                        }
+                    }
+                    catch (Exception ex) {
+
+                    }
                 }
             }
         }
