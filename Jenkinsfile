@@ -13,6 +13,13 @@ pipeline {
             }
         }
 
+        stage('Sonar Qube Analysis'){
+            step{
+               withSonarQubeEnv('sonar')
+                sh  'mvn sonar:sonar'
+            }
+        }
+
         stage('Push') {
             steps {
                 echo 'Pushed'
