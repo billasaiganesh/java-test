@@ -5,7 +5,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>sample</artifactId>
 	<version>1.0.3</version>
-	<name>sample</name>
+	<name>billasaiaganesh</name>
 	<packaging>jar</packaging>
 	<description>sample 2022 with Spring Boot</description>
 	<parent>
