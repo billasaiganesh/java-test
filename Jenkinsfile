@@ -21,6 +21,14 @@ pipeline {
             }
         }
 
+        stage('Quality gate'){
+            steps{
+                timeout(time:10, unit:"MINUTES"){
+                    waitForQualityGate abortpipeline:true
+                }
+            }
+        }
+
         stage('Push') {
             steps {
                 echo 'Pushed'
