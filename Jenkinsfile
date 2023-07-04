@@ -32,8 +32,8 @@ pipeline {
             }
             
             steps {
-                withSonarQubeEnv('sonar',envOnly: true) {
-                    println ${env.SONAR_HOST_URL} 
+                withSonarQubeEnv('sonar', envOnly: true) {
+                  println "${env.SONAR_HOST_URL}"
                     sh  'mvn sonar:sonar'
                 }
             }
