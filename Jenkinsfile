@@ -30,8 +30,10 @@ pipeline {
                     branch 'main'
                 }
             }
+            
             steps {
-                withSonarQubeEnv('sonar') {
+                withSonarQubeEnv('sonar',envOnly: true) {
+                    println ${env.SONAR_HOST_URL} 
                     sh  'mvn sonar:sonar'
                 }
             }
