@@ -32,7 +32,7 @@ pipeline {
             }
             
             steps {
-                withSonarQubeEnv('sonar', credentialsId: 'sonar') {
+                withSonarQubeEnv( credentialsId: 'sonar') {
                  
                     sh  'mvn sonar:sonar'
                 }
