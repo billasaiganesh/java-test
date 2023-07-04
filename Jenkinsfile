@@ -61,28 +61,30 @@ pipeline {
         //CI ended
         //CD started
 
-        stage('Deployment') {
+       stage('Deployment') {
             parallel {
                 stage('Deploy to Dev') {
-                    function name = java-dev-env
-                    steps {
-                        echo 'Build'
-
-                        sh "aws lambda update-function-code --function-name $function_name --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
+                steps {
+                    script {
+                    def functionName = 'java-dev-env'
+                    echo 'Build'
+                    sh "aws lambda update-function-code --function-name $functionName --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
                     }
                 }
+                }
 
-                stage('Deploy to Test') {
-                    function name = java-test-env
-
-                    steps {
-                        echo 'Build'
-
-                        sh "aws lambda update-function-code --function-name $function_name --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
-                    }
+            stage('Deploy to Test') {
+            steps {
+                script {
+                def functionName = 'java-test-env'
+                echo 'Build'
+                sh "aws lambda update-function-code --function-name $functionName --s3-bucket s3-java-samples --s3-key sample-1.0.3.jar --region us-east-1"
                 }
             }
+            }
         }
+    }
+
 
 
         stage('Deployement to Prod') {
